@@ -161,6 +161,22 @@ function App() {
     localStorage.setItem('ai-flow-glossary', JSON.stringify({ terms: glossaryTerms, prompt: glossaryPrompt }));
   }, [glossaryTerms, glossaryPrompt]);
 
+  // Show completion toast when processing finishes
+  const wasProcessing = useRef(false);
+  useEffect(() => {
+    if (wasProcessing.current && !isProcessing && chunks.length > 0) {
+      const successCount = chunks.filter(c => c.status === ProcessingStatus.SUCCESS).length;
+      const errorCount = chunks.filter(c => c.status === ProcessingStatus.ERROR).length;
+      if (successCount > 0 || errorCount > 0) {
+        const msg = errorCount > 0
+          ? `✅ ${successCount} 块完成, ${errorCount} 块失败 — 可点 Download 导出`
+          : `✅ 全部完成 (${successCount} 块) — 点 Download 导出结果`;
+        setTimeout(() => showToast(msg), 300);
+      }
+    }
+    wasProcessing.current = isProcessing;
+  }, [isProcessing]);
+
   const getSystemPrompt = useCallback(() => {
     if (currentPromptName && promptPresets[currentPromptName]) {
       return promptPresets[currentPromptName].template;
@@ -342,11 +358,16 @@ function App() {
       })
       .join('\n\n---\n\n');
     
+    const now = new Date();
+    const ts = `${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}_${String(now.getHours()).padStart(2,'0')}${String(now.getMinutes()).padStart(2,'0')}`;
+    const pn = currentPromptName || 'default';
+    const filename = includeInput ? `${pn}_对照_${ts}.md` : `${pn}_结果_${ts}.md`;
+
     const blob = new Blob([content], { type: 'text/markdown' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = includeInput ? 'ai-flow-export-full.md' : 'ai-flow-export-results.md';
+    a.download = filename;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
