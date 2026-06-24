@@ -1,0 +1,27 @@
+services:
+  llm-text-processor-api:
+    build: ./backend
+    container_name: llm-text-processor-api
+    restart: unless-stopped
+    ports:
+      - "8093:5000"
+    volumes:
+      - ./backend/config.json:/app/config.json
+    networks:
+      - nas_net
+
+  llm-text-processor-web:
+    build: ./frontend
+    container_name: llm-text-processor-web
+    restart: unless-stopped
+    ports:
+      - "8094:80"
+    depends_on:
+      - llm-text-processor-api
+    networks:
+      - nas_net
+
+networks:
+  nas_net:
+    external: true
+    name: fengnas_nas_net

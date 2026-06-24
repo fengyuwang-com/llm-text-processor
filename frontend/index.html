@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>LLM Text Processor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { sans: ['Poppins', 'Arial', 'sans-serif'], serif: ['Lora', 'Georgia', 'serif'] },
+            colors: {
+              brand: { dark: '#141413', light: '#faf9f5', mid: '#b0aea5', subtle: '#e8e6dc', orange: '#d97757', blue: '#6a9bcc', green: '#788c5d' },
+              primary: { DEFAULT: '#d97757', hover: '#bf6345', light: '#fcede8', dark: '#a65035' },
+              stone: { 50: '#faf9f5', 100: '#f2f0eb', 200: '#e8e6dc', 300: '#cfcdc5', 400: '#b0aea5', 500: '#94928a', 600: '#73716a', 700: '#52514b', 800: '#2e2d2b', 900: '#141413' }
+            },
+            animation: { 'fade-in': 'fadeIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)', 'slide-up': 'slideUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1)' },
+            keyframes: {
+              fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+              slideUp: { '0%': { transform: 'translateY(20px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } }
+            },
+            boxShadow: { 'card': '0 0 0 1px rgba(176, 174, 165, 0.2), 0 2px 8px rgba(20, 20, 19, 0.05)', 'glow': '0 0 0 1px #d97757, 0 0 12px rgba(217, 119, 87, 0.2)' }
+          }
+        }
+      }
+    </script>
+    <style>
+      ::-webkit-scrollbar { width: 6px; height: 6px; }
+      ::-webkit-scrollbar-track { background: transparent; }
+      ::-webkit-scrollbar-thumb { background: #e8e6dc; border-radius: 10px; }
+      ::-webkit-scrollbar-thumb:hover { background: #b0aea5; }
+      body { color: #141413; }
+    </style>
+  </head>
+  <body class="bg-background text-brand-dark antialiased overflow-hidden font-sans selection:bg-brand-orange selection:text-white">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>

@@ -1,0 +1,6 @@
+{
+  "name": "LLM Text Processor",
+  "description": "Long text processing with LLMs - chunk, rewrite, summarize",
+  "repository": "https://github.com/fengyuwang-com/llm-text-processor",
+  "version": "1.0.0"
+}
