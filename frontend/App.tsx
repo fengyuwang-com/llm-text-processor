@@ -361,9 +361,9 @@ function App() {
     const now = new Date();
     const ts = `${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}_${String(now.getHours()).padStart(2,'0')}${String(now.getMinutes()).padStart(2,'0')}`;
     const pn = currentPromptName || 'default';
-    const filename = includeInput ? `${pn}_对照_${ts}.md` : `${pn}_结果_${ts}.md`;
+    const filename = includeInput ? `${pn}_对照_${ts}.txt` : `${pn}_结果_${ts}.txt`;
 
-    const blob = new Blob([content], { type: 'text/markdown' });
+    const blob = new Blob([content], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;

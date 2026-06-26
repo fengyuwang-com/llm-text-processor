@@ -59,32 +59,27 @@ app.post('/api/split', (req, res) => {
 // Process text with LLM
 app.post('/api/process', async (req, res) => {
   try {
-    const { text, promptName, temperature, maxTokens, mode, maxChars, overlap } = req.body;
+    const { text, promptName, temperature, maxTokens, mode, maxChars, overlap, filename } = req.body;
     if (!text) return res.status(400).json({ error: 'text is required' });
 
     const config = loadConfig();
 
-    // Determine which prompt template to use
     let promptKey = promptName || config.prompts.current_prompt;
     const promptDef = config.prompts.available_prompts[promptKey];
     if (!promptDef) return res.status(400).json({ error: `Unknown prompt: ${promptKey}` });
 
-    // Split text into chunks
     const chunks = chunkText(text, {
       mode: mode || config.text_processing.mode,
       maxChars: maxChars || config.text_processing.max_chars_per_chunk,
       overlap: overlap !== undefined ? overlap : config.text_processing.overlap_paragraphs,
     });
 
-    // Create prompts for each chunk
     const prompts = chunks.map(chunk => promptDef.template.replace('{input_text}', chunk));
 
-    // Update model params if provided
     const modelParams = { ...config.model_params };
     if (temperature !== undefined) modelParams.temperature = temperature;
     if (maxTokens !== undefined) modelParams.max_tokens = maxTokens;
 
-    // Call API
     const client = new ApiClient(config.api as any, modelParams);
     const results = await client.batchCall(prompts);
 
