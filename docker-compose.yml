@@ -5,6 +5,8 @@ services:
     restart: unless-stopped
     ports:
       - "8093:5000"
+    env_file:
+      - .env
     volumes:
       - ./backend/config.json:/app/config.json
     networks:

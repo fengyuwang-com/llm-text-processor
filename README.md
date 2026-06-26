@@ -37,8 +37,14 @@ Browser → Nginx (frontend) → Node.js API (backend) → LLM Provider (OpenAI/
 ### Quick Start
 
 ```bash
-# 1. Configure API key
-# Edit backend/config.json — set api.openai.api_key and model
+# 1. Configure API key via environment variable
+# Option A: Create .env file
+echo "OPENAI_API_KEY=your-key-here" > .env
+echo "OPENAI_BASE_URL=https://opencode.ai/zen/go/v1" >> .env
+echo "OPENAI_MODEL=deepseek-v4-flash" >> .env
+
+# Option B: Or copy and edit the config template
+cp backend/config.example.json backend/config.json
 
 # 2. Build & start
 docker compose up -d
@@ -49,7 +55,15 @@ docker compose up -d
 
 ### Configuration
 
-Edit `backend/config.json`:
+Configure via **environment variables** (recommended, prevents secret leaks):
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `OPENAI_API_KEY` | Your API key | — |
+| `OPENAI_BASE_URL` | API base URL | `https://opencode.ai/zen/go/v1` |
+| `OPENAI_MODEL` | Model name | `deepseek-v4-flash` |
+
+Or copy `backend/config.example.json` to `backend/config.json` and edit:
 
 ```json
 {
@@ -60,18 +74,11 @@ Edit `backend/config.json`:
       "base_url": "https://opencode.ai/zen/go/v1",
       "model": "deepseek-v4-flash"
     }
-  },
-  "prompts": {
-    "available_prompts": {
-      "my_prompt": {
-        "name": "My Custom Prompt",
-        "description": "What this prompt does",
-        "template": "Process this text:\n\n{input_text}"
-      }
-    }
   }
 }
 ```
+
+> ⚠️ **Security**: `backend/config.json` is gitignored. Never commit API keys to the repository.
 
 Restart after config changes: `docker restart llm-text-processor-api`
 
@@ -127,8 +134,11 @@ llm-text-processor/
 ### 快速开始
 
 ```bash
-# 1. 配置 API key
-# 编辑 backend/config.json，填入 api.openai.api_key 和 model
+# 1. 配置 API key（推荐使用环境变量，避免密钥泄露）
+echo "OPENAI_API_KEY=你的-key" > .env
+
+# 或者复制配置模板后编辑
+cp backend/config.example.json backend/config.json
 
 # 2. 构建并启动
 docker compose up -d

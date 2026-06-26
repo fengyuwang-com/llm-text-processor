@@ -1,0 +1,44 @@
+{
+  "server": {
+    "port": 5000,
+    "maxFileSize": 10485760
+  },
+  "api": {
+    "provider": "openai",
+    "deepseek": {
+      "api_key": "YOUR_API_KEY_HERE",
+      "base_url": "https://api.deepseek.com/v1",
+      "model": "deepseek-chat"
+    },
+    "openai": {
+      "api_key": "YOUR_API_KEY_HERE",
+      "base_url": "https://opencode.ai/zen/go/v1",
+      "model": "deepseek-v4-flash"
+    }
+  },
+  "model_params": {
+    "max_tokens": 4096,
+    "temperature": 0.7,
+    "max_concurrent_requests": 5
+  },
+  "text_processing": {
+    "mode": "paragraph",
+    "max_chars_per_chunk": 2000,
+    "overlap_paragraphs": 0
+  },
+  "prompts": {
+    "current_prompt": "humorous_rewrite",
+    "available_prompts": {
+      "humorous_rewrite": {
+        "name": "戏谑搞笑大白话改写",
+        "description": "将文本改写为戏谑搞笑的大白话风格",
+        "template": "你是一个文本改写助手。请将以下文本改写成戏谑搞笑的大白话风格。\n\n严格要求：\n1. 直接输出改写后的文本，不要添加任何开场白、结尾、评论或解释\n2. 保持原文段落结构，一段输入对应一段输出\n3. 语言风格：接地气、幽默\n\n{input_text}"
+      },
+      "professional_summary": {
+        "name": "专业摘要生成",
+        "description": "生成正式的专业摘要",
+        "template": "请将以下文本内容总结为一段专业的摘要，保留核心观点和关键信息：\n\n{input_text}"
+      }
+    }
+  }
+}
